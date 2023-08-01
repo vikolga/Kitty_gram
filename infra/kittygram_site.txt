@@ -1,0 +1,5 @@
+IP: 158.160.71.236;
+name_taski: https://taskiov.hopto.org;
+name_kittygram: https://kittygramov.hopto.org;
+login: olgavik;
+password: 541387maugli;
