@@ -37,8 +37,8 @@ ___
 
 - Клонировать репозиторий и перейти в него в командной строке:
 ```
-git clone git@github.com:vikolga/infra_sprint1.git
-cd infra_sprint1/backend
+git clone https://git@github.com:vikolga/Kitty_gram.git
+cd Kitty_gram/backend
 ```
 
 - Cоздать и активировать виртуальное окружение:
@@ -77,21 +77,21 @@ sudo chown -R <текущий пользователь> /var/www/kittygram/media
 
 - Собираем статику фронтенд-приложения
 ```
-cd infra_sprint1/frontend/
+cd Kitty_gram/frontend/
 npm run build
-sudo cp -r infra_sprint1/frontend/build/. /var/www/kittygram/
+sudo cp -r Kitty_gram/frontend/build/. /var/www/kittygram/
 ```
 
 - Собираем статику бэкенд-приложения
 ```
 python manage.py collectstatic
-sudo cp -r infra_sprint1/backend/static_backend/ /var/www/kittygram/
+sudo cp -r Kitty_gram/backend/static_backend/ /var/www/kittygram/
 ```
 
 
 - Настройте WSGI-сервер Gunicorn для работы с бэкенд-приложением проекта Kittygram
 ```
-sudo cp -r infra_sprint1/infra/gunicorn_kittygram /etc/systemd/system/gunicorn-kittygram.service
+sudo cp -r Kitty_gram/infra/gunicorn_kittygram /etc/systemd/system/gunicorn-kittygram.service
 sudo systemctl start gunicorn-kittygram
 ```
 
@@ -102,7 +102,7 @@ sudo apt install nginx -y
 
 Настройка Nginx
 sudo cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.BAK
-sudo cp -r infra_sprint1/infra/default /etc/nginx/sites-enabled/default
+sudo cp -r Kitty_gram/infra/default /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl restart nginx
 
