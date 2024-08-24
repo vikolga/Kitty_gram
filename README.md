@@ -1,125 +1,123 @@
-# infra_sprint1
+# Kittygram
 
-Kittygram — социальная сеть для обмена фотографиями любимых питомцев.
+### Kittygram — социальная сеть для обмена фотографиями любимых питомцев. 
 
-Деплой учебного проекта.
+<p> Cостоит из бэкенд-приложения на Django и фронтенд-приложения на React. </p>
 
-Установка проекта на локальный компьютер из репозитория Клонировать репозиторий https://github.com/vikolga/infra_sprint1.git перейти в директорию с клонированным репозиторием
+___
+![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=flat&logo=django&logoColor=white&color=ff1709&labelColor=light_grey)&nbsp;
+![Django](https://img.shields.io/badge/DJANGO-1f6e4b.svg?&style=flat&logo=django&logoColor=white)&nbsp;
+![SQLite](https://img.shields.io/badge/SQLITE-003B57.svg?&style=flat&logo=sqlite&logoColor=white)&nbsp;
+![Python](https://img.shields.io/badge/PYTHON-3776AB.svg?&style=flat&logo=python&logoColor=white)&nbsp;
+![react](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=flat)&nbsp;
 
-Cоздать и активировать виртуальное окружение:
+## Оглавление
+1. [Описание](#описание)
+2. [Стек технологий](##стек-технологий)
+3. [Как запустить проект](##как-запустить-проект)
+4. [Автор проекта](##автор-проекта)
 
-python3 -m venv venv (для mac и linux) python -m venv venv (для windows) source venv/bin/activate (для mac и linux) source venv/Scripts/activate (для windows) Установить зависимости из файла requirements.txt:
 
-python3 -m pip install --upgrade pip (для mac и linux) python -m pip install --upgrade pip (для windows) перейти в дирректорию где хранится файл requirements.txt и оттуда выполнить команду:
+## Описание
+При подключении к Kittygram доступны все возможности проекта: можно зарегистрироваться и авторизоваться, добавить нового котика на сайт или изменить существующего, а также просмотреть записи других пользователей.
+Секреты подключаются из файла .env.
+В проекте Kittygram подгружаются файлы со стилями для панели администратора.
 
-pip install -r requirements.txt Выполнить миграции:
 
-python3 manage.py migrate (для mac и linux) python manage.py migrate (для windows)
 
-в директории /backend/kittygram_backend/ создать файл .env в файле .env прописать ваш SECRET_KEY в виде: SECRET_KEY = '<ваш_ключ>'
+## Стек технологий
+- проект написан на Python с использованием Django, Django REST Framework
+- базы данны - SQLite3
+- система контроля версий - git
+- frontend - React
 
-Деплой проекта на удаленный сервер Подключение сервера к аккаунту на GitHub на сервере должен быть установлен Git. Для проверки выполнить sudo apt update git --version если Git не установлен - установить командой sudo apt install git находясь на сервере сгенерировать пару SSH-ключей командой ssh-keygen сохранить открытый ключ в вашем аккаунте на GitHub. Для этого вывести ключ в терминал командой cat .ssh/id_rsa.pub. Скопировать ключ от символов ssh-rsa, включительно, и до конца. Добавить это ключ к вашему аккаунту на GitHub. клонировать проект с GitHub на сервер: git clone git@github.com:Ваш_аккаунт/<Имя проекта>.git
 
-Запуск backend проекта на сервере Установить пакетный менеджер и утилиту для создания виртуального окружения sudo apt install python3-pip python3-venv -y находясь в директории с проектом создать и активировать виртуальное окружение python3 -m venv venv source venv/bin/activate установить зависимости pip install -r requirements.txt выполнить миграции python manage.py migrate создать суперюзера python manage.py createsuperuser отредактировать settings.py на сервере: в список ALLOWED_HOSTS добавить внешний IP-адрес вашего сервера и адреса 127.0.0.1 и localhost . ALLOWED_HOSTS = ['<внешний адрес вашего сервера>', '127.0.0.1', 'localhost']
 
-Запуск frontend проекта на сервере установить на сервер Node.js командами curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\ sudo apt-get install -y nodejs установить зависимости frontend приложения. Из директории <ваш проект>/frontend/ выполнить команду: npm i
+## Как запустить проект:
 
-Установка и запуск Gunicorn при активированном виртуальном окружении проекта установить пакет gunicorn pip install gunicorn==20.1.0
+- Клонировать репозиторий и перейти в него в командной строке:
+```
+git clone git@github.com:vikolga/infra_sprint1.git
+cd infra_sprint1/backend
+```
 
-открыть файл settings.py проекта и установить для константы DEBUG значение False DEBUG = False
+- Cоздать и активировать виртуальное окружение:
+```
+python -m venv venv
+source venv/bin/activate
+```
 
-В директории /etc/systemd/system/ создайте файл gunicorn.service sudo nano /etc/systemd/system/gunicorn.service со следующим кодом (без комментариев):
+- Обновить установщик пакетов и установить зависимости из файла requirements.txt:
+```
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-[Unit]
+- Выполнить миграции:
+```
+python manage.py migrate
+```
 
-Description=gunicorn daemon
+- Запускаем фронтенд
+```
+Установить на сервер пакетный менеджер npm.
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
 
-After=network.target
+Установить зависимости для фронтенд-приложения.
+npm i
+```
 
-[Service]
+- Создаем root директорию для проекта
+```
+sudo mkdir /var/www/kittygram
+sudo mkdir /var/www/kittygram/media
+sudo chown -R <текущий пользователь> /var/www/kittygram/media/
+```
 
-User=yc-user
+- Собираем статику фронтенд-приложения
+```
+cd infra_sprint1/frontend/
+npm run build
+sudo cp -r infra_sprint1/frontend/build/. /var/www/kittygram/
+```
 
-WorkingDirectory=/home/<имя пользователя в системе>/<имя проекта>/backend/
+- Собираем статику бэкенд-приложения
+```
+python manage.py collectstatic
+sudo cp -r infra_sprint1/backend/static_backend/ /var/www/kittygram/
+```
 
-ExecStart=/home/<имя пользователя в системе>/<имя проекта>/venv/bin/gunicorn --bind 0.0.0.0:8080 kittygram_backend.wsgi
 
-[Install]
+- Настройте WSGI-сервер Gunicorn для работы с бэкенд-приложением проекта Kittygram
+```
+sudo cp -r infra_sprint1/infra/gunicorn_kittygram /etc/systemd/system/gunicorn-kittygram.service
+sudo systemctl start gunicorn-kittygram
+```
 
-WantedBy=multi-user.target Чтобы точно узнать путь до Gunicorn можно при активированном виртуальном окружении использовать команду which gunicorn
+- Настройте веб-сервер Nginx для перенаправления запросов и работы со статикой проекта Kittygram
+```
+Установка Nginx (если не установлен)
+sudo apt install nginx -y
 
-Установка и настройка Nginx На сервере из любой директории выполнить команду: sudo apt install nginx -y
+Настройка Nginx
+sudo cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.BAK
+sudo cp -r infra_sprint1/infra/default /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl restart nginx
 
-Для установки ограничений на открытые порты выполнить по очереди команды: sudo ufw allow 'Nginx Full' sudo ufw allow OpenSSH
+Настройка файрвола (если не настроены)
+правила, по которым будут закрыты все порты, кроме тех, которые явно указаны. 
+Nginx Full - 80 и 443
+OpenSSH - 22 (чтобы не потерять доступ у удаленному серверу по ssh)
 
-включить файервол sudo ufw enable
+sudo ufw allow 'Nginx Full'
+sudo ufw allow OpenSSH
+sudo ufw enable
+```
 
-собрать и разместить статику frontend-приложения. Перейти в директорию <имя_проекта>/frontend/ и выполнить команду npm run build Результат сохранится в директории .../frontend/build/. В системную директорию сервера /var/www/ скопировать содержимое папки /frontend/build/
 
-открыть файл конфигурации веб-сервера sudo nano /etc/nginx/sites-enabled/default и заменить его содержимое следующим кодом:
 
-server {
 
-  listen 80;
-  server_name публичный_ip_вашего_удаленного_сервера;
-
-  location / {
-  root   /var/www/<имя проекта>;
-  index  index.html index.htm;
-  try_files $uri /index.html;
-  }
-} проверить корректность конфигурации sudo nginx -t
-
-перезагрузить конфигурацию Nginx sudo systemctl reload nginx
-
-настроить проксирование запросов Открыть файл конфигурации Nginx /etc/nginx/sites-enabled/default и добавить в него ещё один блок location
-
-server {
-
-  listen 80;
-  server_name публичный_ip_вашего_удаленного_сервера;
-
-  location /api/ {
-      proxy_pass http://127.0.0.1:8080;
-  }
-  
-  location /admin/ {
-    proxy_pass http://127.0.0.1:8000;
-	}
-
-  location / {
-      root   /var/www/<имя_проекта>;
-      index  index.html index.htm;
-      try_files $uri /index.html;
-  }
-} Сохранить изменения, проверить и перезагрузить конфигурацию веб-сервера:
-
-sudo nginx -t sudo systemctl reload nginx собрать и настроить статику для backend-приложения. в файле settings.py прописать настройки
-
-STATIC_URL = 'static_backend' STATIC_ROOT = BASE_DIR / 'static_backend' активировать виртуальное окружение проекта, перейти в директорию с файлом manage.py и выполнить команду python manage.py collectstatic
-
-в директории_<имя_проекта>/backend/_ будет создана директория static_backend/
-
-Скопировать директорию static_backend/ в директорию /var/www/<имя_проекта>/
-
-Добавление доменного имени в настройки Django в файле settings.py добавить в список ALLOWED_HOSTS доменное имя: ALLOWED_HOSTS = ['ip_адрес_вашего_сервера', '127.0.0.1', 'localhost', 'ваш-домен']
-
-сохранить изменения и перезапустить gunicorn sudo systemctl restart gunicorn
-
-внести изменения в конфигурацию Nginx. Открыть конфигурационный файл командой: sudo nano /etc/nginx/sites-enabled/default
-
-Добавьте в строку server_name выданное вам доменное имя (через пробел, без < >):
-
-server { ... server_name <ваш-ip> <ваш-домен>; ... } Проверить конфигурацию sudo nginx -t и перезагрузить её командой sudo systemctl reload nginx, чтобы изменения вступили в силу.
-
-Получение и настройка SSL-сертификата Установка certbot
-
-Зайдите на сервер и последовательно выполните команды:
-
-sudo apt install snapd sudo snap install core; sudo snap refresh core sudo snap install --classic certbot sudo ln -s /snap/bin/certbot /usr/bin/certbot запустить certbot и получить SSL-сертификат:
-
-sudo certbot --nginx сертификат автоматически сохранится на вашем сервере в системной директории /etc/ssl/ Также будет автоматически изменена конфигурация Nginx: в файл /etc/nginx/sites-enabled/default добавятся новые настройки и будут прописаны пути к сертификату.
-
-перезагрузить конфигурацию Nginx sudo systemctl reload nginx
-
-Автор Викторова Ольга
+## Автор проекта
+_[Викторова Ольга](https://github.com/vikolga)_, python-developer
